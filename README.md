@@ -3,9 +3,9 @@
   <h1>🎯 Tung Tung Tracker</h1>
   <p><strong>L'outil ultime d'analyse de skins et de Live Tracking pour Valorant, conçu pour les passionnés.</strong></p>
   <p>
-    <img src="https://img.shields.io/badge/API-100%25%20GET-brightgreen" alt="100% GET" />
-    <img src="https://img.shields.io/badge/Ban%20Risk-0%25-blue" alt="Zero Ban Risk" />
-    <img src="https://img.shields.io/badge/Python-3.10+-yellow" alt="Python" />
+    <img src="https://img.shields.io/badge/API-100%25%20GET-brightgreen" alt="100% GET"/>
+    <img src="https://img.shields.io/badge/Ban%20Risk-0%25-blue" alt="Zero Ban Risk"/>
+    <img src="https://img.shields.io/badge/Python-3.10+-yellow" alt="Python"/>
   </p>
 </div>
 
