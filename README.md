@@ -2,7 +2,11 @@
   <img src="https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/displayicon.png" width="300" alt="Vandal" />
   <h1>🎯 Tung Tung Tracker</h1>
   <p><strong>L'outil ultime d'analyse de skins et de Live Tracking pour Valorant, conçu pour les passionnés.</strong></p>
-  <p>100% GET • 100% Local • Zéro Risque de Ban</p>
+  <p>
+    <img src="https://img.shields.io/badge/API-100%25%20GET-brightgreen" alt="100% GET" />
+    <img src="https://img.shields.io/badge/Ban%20Risk-0%25-blue" alt="Zero Ban Risk" />
+    <img src="https://img.shields.io/badge/Python-3.10+-yellow" alt="Python" />
+  </p>
 </div>
 
 <br>
