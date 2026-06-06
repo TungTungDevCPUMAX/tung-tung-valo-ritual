@@ -387,6 +387,18 @@ def index():
 def api_scan():
     return jsonify(valorant_api.get_data())
 
+@app.route('/api/reset', methods=['POST'])
+def api_reset():
+    valorant_api.db = {
+        "processed_matches": [],
+        "matches": {},
+        "agents": {},
+        "skins": {},
+        "locked_loadouts": {}
+    }
+    valorant_api.save_db()
+    return jsonify({"success": True})
+
 if __name__ == '__main__':
     print("Démarrage du Valorant Tracker sur http://127.0.0.1:5000")
     app.run(port=5000, debug=True, use_reloader=False)

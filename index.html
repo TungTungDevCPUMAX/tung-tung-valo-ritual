@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tung Tung Valorant Tracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         body {
             background-color: #0f1923;
@@ -13,14 +15,24 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
-        h1, h2, h3, .valo-font {
+
+        h1,
+        h2,
+        h3,
+        .valo-font {
             font-family: 'Anton', sans-serif;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-        .accent-red { color: #ff4655; }
-        .bg-accent-red { background-color: #ff4655; }
-        
+
+        .accent-red {
+            color: #ff4655;
+        }
+
+        .bg-accent-red {
+            background-color: #ff4655;
+        }
+
         .glass-panel {
             background: rgba(31, 35, 38, 0.7);
             backdrop-filter: blur(10px);
@@ -32,51 +44,92 @@
             border-bottom: 2px solid transparent;
             transition: all 0.3s ease;
         }
+
         .tab-btn.active {
             border-bottom: 2px solid #ff4655;
             color: #ece8e1;
         }
 
         .loader {
-            border: 3px solid rgba(255, 255, 255, 0.1); border-top: 3px solid #ff4655; border-radius: 50%;
-            width: 48px; height: 48px; animation: spin 1s linear infinite;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #ff4655;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            animation: spin 1s linear infinite;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #ff4655; }
-        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff4655;
+        }
+
         #loading-overlay {
-            position: fixed; inset: 0; z-index: 50;
+            position: fixed;
+            inset: 0;
+            z-index: 50;
             background: rgba(15, 25, 35, 0.9);
             backdrop-filter: blur(5px);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             transition: opacity 0.5s ease;
         }
 
-        .weapon-card:hover .weapon-img { transform: scale(1.05); }
+        .weapon-card:hover .weapon-img {
+            transform: scale(1.05);
+        }
     </style>
 </head>
+
 <body class="min-h-screen flex flex-col relative p-4 lg:p-8">
 
-    <div class="absolute top-0 right-0 w-96 h-96 bg-red-600 rounded-full mix-blend-screen filter blur-[150px] opacity-20 pointer-events-none fixed"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-[150px] opacity-10 pointer-events-none fixed"></div>
+    <div
+        class="absolute top-0 right-0 w-96 h-96 bg-red-600 rounded-full mix-blend-screen filter blur-[150px] opacity-20 pointer-events-none fixed">
+    </div>
+    <div
+        class="absolute bottom-0 left-0 w-96 h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-[150px] opacity-10 pointer-events-none fixed">
+    </div>
 
     <!-- Loading Overlay -->
     <div id="loading-overlay">
         <div class="loader mb-6"></div>
         <h2 class="text-2xl valo-font tracking-widest text-white mb-2">Chargement du Tracker...</h2>
-        <p class="text-gray-400 text-sm max-w-sm text-center" id="loading-text">Analyse de tes matchs en cours. (Laisse Valorant ouvert)</p>
+        <p class="text-gray-400 text-sm max-w-sm text-center" id="loading-text">Analyse de tes matchs en cours. (Laisse
+            Valorant ouvert)</p>
         <p id="error-msg" class="text-red-400 text-sm mt-4 hidden bg-red-900/30 p-4 rounded"></p>
-        <button id="retry-btn" onclick="fetchData()" class="mt-6 hidden text-white border border-gray-600 px-6 py-2 rounded hover:bg-white/10 transition">Réessayer</button>
+        <button id="retry-btn" onclick="fetchData()"
+            class="mt-6 hidden text-white border border-gray-600 px-6 py-2 rounded hover:bg-white/10 transition">Réessayer</button>
     </div>
 
     <!-- Modal Top 3 Skins -->
     <div id="top3-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="glass-panel w-full max-w-3xl rounded-lg p-6 relative">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+            <button onclick="closeModal()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
             <h2 id="modal-weapon-title" class="text-3xl valo-font accent-red mb-6 text-center">TOP 3 SKINS</h2>
             <div id="modal-content" class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Injected Top 3 -->
@@ -85,44 +138,65 @@
     </div>
 
     <div class="max-w-7xl w-full mx-auto relative z-10 flex-grow flex flex-col">
-        
+
         <header class="flex flex-col md:flex-row justify-between items-center mb-8 shrink-0 gap-4">
             <div>
                 <h1 class="text-4xl valo-font tracking-wider">TUNG TUNG <span class="accent-red">TRACKER</span></h1>
                 <p class="text-sm tracking-widest text-gray-400 uppercase mt-1">Analyseur Permanent & Casier à Skins</p>
             </div>
             <nav class="flex gap-6 text-gray-400 tracking-widest uppercase text-sm font-bold">
-                <button onclick="switchTab('dashboard')" class="tab-btn active cursor-pointer py-2 px-1" id="tab-dashboard">Dashboard</button>
-                <button onclick="switchTab('history')" class="tab-btn cursor-pointer py-2 px-1" id="tab-history">Historique</button>
-                <button onclick="switchTab('casier')" class="tab-btn cursor-pointer py-2 px-1" id="tab-casier">Casier & Skins</button>
-                <button onclick="switchTab('live')" class="tab-btn cursor-pointer py-2 px-1 text-accent-red hidden animate-pulse" id="tab-live">Match en Direct</button>
+                <button onclick="switchTab('dashboard')" class="tab-btn active cursor-pointer py-2 px-1"
+                    id="tab-dashboard">Dashboard</button>
+                <button onclick="switchTab('history')" class="tab-btn cursor-pointer py-2 px-1"
+                    id="tab-history">Historique</button>
+                <button onclick="switchTab('casier')" class="tab-btn cursor-pointer py-2 px-1" id="tab-casier">Casier &
+                    Skins</button>
+                <button onclick="switchTab('live')"
+                    class="tab-btn cursor-pointer py-2 px-1 text-accent-red hidden animate-pulse" id="tab-live">Match en
+                    Direct</button>
             </nav>
             <div class="flex items-center gap-3">
-                <select id="queue-filter" onchange="renderApp()" class="bg-gray-800 text-white border border-gray-700 text-sm rounded p-1 outline-none valo-font tracking-widest">
+                <select id="queue-filter" onchange="renderApp()"
+                    class="bg-gray-800 text-white border border-gray-700 text-sm rounded p-1 outline-none valo-font tracking-widest">
                     <option value="all">TOUS LES MODES</option>
                     <option value="competitive">COMPÉTITIF</option>
                     <option value="unrated">NON CLASSÉ</option>
                     <option value="swiftplay">SWIFTPLAY</option>
                     <option value="spikerush">SPIKE RUSH</option>
                 </select>
-                <div id="sync-status" class="text-xs text-green-400 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Auto-Sync Actif</div>
+                <button onclick="resetStats()"
+                    class="bg-red-600/80 hover:bg-red-600 text-white text-xs px-2 py-1 rounded font-bold uppercase transition flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 6h18" />
+                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                        <line x1="10" x2="10" y1="11" y2="17" />
+                        <line x1="14" x2="14" y1="11" y2="17" />
+                    </svg>
+                </button>
+                <div id="sync-status" class="text-xs text-green-400 flex items-center gap-1"><span
+                        class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Auto-Sync Actif</div>
             </div>
         </header>
 
         <div class="flex-grow relative h-full">
-            
+
             <!-- TAB: DASHBOARD -->
             <div id="view-dashboard" class="h-full space-y-6">
                 <!-- User Profile -->
                 <div class="glass-panel p-4 rounded-lg flex items-center gap-6">
                     <div class="relative">
-                        <img id="user-rank-icon" src="" class="w-16 h-16 drop-shadow-lg" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='">
+                        <img id="user-rank-icon" src="" class="w-16 h-16 drop-shadow-lg"
+                            onerror="this.src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='">
                     </div>
                     <div>
                         <h2 id="user-name" class="text-2xl valo-font tracking-widest text-white">--</h2>
                         <div class="flex items-center gap-4 mt-1">
-                            <span class="text-xs font-bold bg-gray-800 px-2 py-1 rounded text-gray-300">Niveau <span id="user-level" class="text-white">0</span></span>
-                            <span class="text-xs font-bold bg-gray-800 px-2 py-1 rounded text-gray-300">Rang <span id="user-rank-text" class="text-white valo-font">NON CLASSÉ</span></span>
+                            <span class="text-xs font-bold bg-gray-800 px-2 py-1 rounded text-gray-300">Niveau <span
+                                    id="user-level" class="text-white">0</span></span>
+                            <span class="text-xs font-bold bg-gray-800 px-2 py-1 rounded text-gray-300">Rang <span
+                                    id="user-rank-text" class="text-white valo-font">NON CLASSÉ</span></span>
                         </div>
                     </div>
                 </div>
@@ -135,11 +209,13 @@
                     </div>
                     <div class="glass-panel p-4 rounded-lg text-center">
                         <div class="text-gray-400 text-xs tracking-widest uppercase mb-1">Winrate Global</div>
-                        <div class="text-3xl valo-font text-white flex items-end justify-center gap-1"><span id="stat-winrate">0</span><span class="text-lg text-gray-500 mb-1">%</span></div>
+                        <div class="text-3xl valo-font text-white flex items-end justify-center gap-1"><span
+                                id="stat-winrate">0</span><span class="text-lg text-gray-500 mb-1">%</span></div>
                     </div>
                     <div class="glass-panel p-4 rounded-lg text-center">
                         <div class="text-gray-400 text-xs tracking-widest uppercase mb-1">HS% Moyen</div>
-                        <div class="text-3xl valo-font text-white flex items-end justify-center gap-1"><span id="stat-hs">0</span><span class="text-lg text-gray-500 mb-1">%</span></div>
+                        <div class="text-3xl valo-font text-white flex items-end justify-center gap-1"><span
+                                id="stat-hs">0</span><span class="text-lg text-gray-500 mb-1">%</span></div>
                     </div>
                     <div class="glass-panel p-4 rounded-lg text-center">
                         <div class="text-gray-400 text-xs tracking-widest uppercase mb-1">Kills Enregistrés</div>
@@ -149,22 +225,31 @@
 
                 <!-- Best Agent & Best Weapons -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
-                    <div class="glass-panel p-6 rounded-lg flex flex-col relative overflow-hidden group border-t-2 border-red-500">
-                        <div class="absolute top-0 right-0 p-4 opacity-5 valo-font text-8xl pointer-events-none transform translate-x-10 -translate-y-4">MAIN</div>
+                    <div
+                        class="glass-panel p-6 rounded-lg flex flex-col relative overflow-hidden group border-t-2 border-red-500">
+                        <div
+                            class="absolute top-0 right-0 p-4 opacity-5 valo-font text-8xl pointer-events-none transform translate-x-10 -translate-y-4">
+                            MAIN</div>
                         <h3 class="text-gray-400 text-sm tracking-widest uppercase mb-4">Meilleur Agent</h3>
                         <div class="flex items-center gap-6 z-10" id="best-agent-container">
-                            <img id="best-agent-img" src="" class="w-32 h-32 rounded-full border-4 border-red-500/50 shadow-[0_0_15px_rgba(255,70,85,0.5)] object-cover" style="display:none;">
+                            <img id="best-agent-img" src=""
+                                class="w-32 h-32 rounded-full border-4 border-red-500/50 shadow-[0_0_15px_rgba(255,70,85,0.5)] object-cover"
+                                style="display:none;">
                             <div>
                                 <h2 id="best-agent-name" class="text-4xl valo-font text-white mb-2">--</h2>
-                                <p class="text-gray-300 text-sm mb-1">Matchs Joués : <span id="best-agent-matches" class="font-bold text-white">0</span></p>
-                                <p class="text-gray-300 text-sm mb-1">Winrate : <span id="best-agent-winrate" class="font-bold text-white">0%</span></p>
-                                <p class="text-gray-300 text-sm">K/D : <span id="best-agent-kd" class="font-bold text-white">0</span></p>
+                                <p class="text-gray-300 text-sm mb-1">Matchs Joués : <span id="best-agent-matches"
+                                        class="font-bold text-white">0</span></p>
+                                <p class="text-gray-300 text-sm mb-1">Winrate : <span id="best-agent-winrate"
+                                        class="font-bold text-white">0%</span></p>
+                                <p class="text-gray-300 text-sm">K/D : <span id="best-agent-kd"
+                                        class="font-bold text-white">0</span></p>
                             </div>
                         </div>
                     </div>
 
                     <div class="glass-panel p-6 rounded-lg">
-                        <h3 class="text-gray-400 text-sm tracking-widest uppercase mb-4">Armes Préférées (Catégories)</h3>
+                        <h3 class="text-gray-400 text-sm tracking-widest uppercase mb-4">Armes Préférées (Catégories)
+                        </h3>
                         <div class="grid grid-cols-2 gap-4" id="best-categories-container">
                             <!-- Injected Best Weapons -->
                         </div>
@@ -174,7 +259,8 @@
 
             <!-- TAB: HISTORIQUE -->
             <div id="view-history" class="hidden h-full flex flex-col glass-panel p-6 rounded-lg">
-                <h3 class="text-gray-400 text-sm tracking-widest uppercase mb-4 border-b border-gray-800 pb-2">Historique des Matchs Analysés</h3>
+                <h3 class="text-gray-400 text-sm tracking-widest uppercase mb-4 border-b border-gray-800 pb-2">
+                    Historique des Matchs Analysés</h3>
                 <div id="history-list" class="flex flex-col gap-3 overflow-y-auto pr-2 flex-grow h-[500px]">
                     <!-- Injected matches -->
                 </div>
@@ -182,8 +268,10 @@
 
             <!-- TAB: CASIER (SKINS) -->
             <div id="view-casier" class="hidden h-full flex flex-col">
-                <p class="text-gray-400 text-sm mb-6 text-center">Clique sur une arme pour voir le Top 3 de tes skins basés sur tes Kills enregistrés !</p>
-                <div id="casier-grid" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto pr-2 pb-10">
+                <p class="text-gray-400 text-sm mb-6 text-center">Clique sur une arme pour voir le Top 3 de tes skins
+                    basés sur tes Kills enregistrés !</p>
+                <div id="casier-grid"
+                    class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto pr-2 pb-10">
                     <!-- Injected weapons -->
                 </div>
             </div>
@@ -196,7 +284,7 @@
                         <p class="text-sm text-gray-400">Pseudos et Rangs en direct</p>
                     </div>
                 </div>
-                
+
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 overflow-y-auto pb-10">
                     <!-- ALLY TEAM -->
                     <div>
@@ -227,35 +315,57 @@
             try {
                 const skinsRes = await fetch('https://valorant-api.com/v1/weapons/skins');
                 const skinsData = await skinsRes.json();
-                if(skinsData.status === 200) {
+                if (skinsData.status === 200) {
                     skinsData.data.forEach(s => {
                         ALL_SKINS[s.uuid.toLowerCase()] = s;
                     });
                 }
-            } catch(e) { console.error('Failed to load skins DB', e); }
-            
+            } catch (e) { console.error('Failed to load skins DB', e); }
+
             fetchData();
             setInterval(fetchData, 1 * 60 * 1000);
         };
 
         function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('tab-' + tab).classList.add('active');
-            
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active', 'text-white'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.add('text-gray-400'));
+
+            const activeBtn = document.getElementById('tab-' + tab);
+            activeBtn.classList.remove('text-gray-400');
+            activeBtn.classList.add('active', 'text-white');
+
             document.getElementById('view-dashboard').classList.add('hidden');
             document.getElementById('view-history').classList.add('hidden');
             document.getElementById('view-casier').classList.add('hidden');
             document.getElementById('view-live').classList.add('hidden');
-            
+
             document.getElementById('view-' + tab).classList.remove('hidden');
+        }
+
+        async function resetStats() {
+            if (confirm("Êtes-vous sûr de vouloir supprimer toutes vos statistiques et votre historique ? (Action irréversible)")) {
+                try {
+                    const res = await fetch('/api/reset', { method: 'POST' });
+                    if (res.ok) {
+                        if (GLOBAL_DATA) {
+                            GLOBAL_DATA.db = { processed_matches: [], matches: {}, agents: {}, skins: {}, locked_loadouts: {} };
+                        }
+                        renderApp();
+                        alert("Statistiques réinitialisées avec succès !");
+                    }
+                } catch (e) {
+                    console.error(e);
+                    alert("Erreur lors de la réinitialisation.");
+                }
+            }
         }
 
         async function fetchData() {
             const overlay = document.getElementById('loading-overlay');
             const errorMsg = document.getElementById('error-msg');
             const retryBtn = document.getElementById('retry-btn');
-            
-            if(!GLOBAL_DATA) {
+
+            if (!GLOBAL_DATA) {
                 overlay.style.opacity = '1';
                 overlay.style.pointerEvents = 'auto';
             }
@@ -263,20 +373,21 @@
             try {
                 const response = await fetch('/api/scan');
                 const data = await response.json();
-                
+
                 if (data.error) throw new Error(data.error);
 
                 GLOBAL_DATA = data;
                 renderApp();
 
-                if(overlay.style.opacity == '1') {
+                if (overlay.style.opacity == '1') {
                     overlay.style.opacity = '0';
                     setTimeout(() => { overlay.style.pointerEvents = 'none'; }, 500);
                 }
-                
+
+
                 const d = new Date();
-                const timeStr = `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
-                
+                const timeStr = `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+
                 let syncHtml = `<span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Sync: ${timeStr}`;
                 if (data.is_in_game) {
                     syncHtml = `<span class="bg-red-500 text-white text-xs px-2 py-1 rounded font-bold uppercase animate-pulse">En Partie : Skins Verrouillés</span> ` + syncHtml;
@@ -287,12 +398,12 @@
                         switchTab('dashboard');
                     }
                 }
-                
+
                 document.getElementById('sync-status').innerHTML = syncHtml;
-                
+
             } catch (error) {
                 console.error(error);
-                if(!GLOBAL_DATA) {
+                if (!GLOBAL_DATA) {
                     document.querySelector('.loader').style.display = 'none';
                     document.getElementById('loading-text').textContent = "Le chargement a échoué.";
                     errorMsg.textContent = error.message || "Serveur Flask inaccessible.";
@@ -305,10 +416,10 @@
         }
 
         function getRankImg(rankId) {
-            if(!rankId || rankId === 0) return "https://media.valorant-api.com/competitivetiers/564d8e28-c226-3180-6285-e48a390db8b1/0/largeicon.png";
+            if (!rankId || rankId === 0) return "https://media.valorant-api.com/competitivetiers/564d8e28-c226-3180-6285-e48a390db8b1/0/largeicon.png";
             return `https://media.valorant-api.com/competitivetiers/564d8e28-c226-3180-6285-e48a390db8b1/${rankId}/largeicon.png`;
         }
-        
+
         function getRankName(rankId) {
             const ranks = ["Non Classé", "Unused1", "Unused2", "Fer 1", "Fer 2", "Fer 3", "Bronze 1", "Bronze 2", "Bronze 3", "Argent 1", "Argent 2", "Argent 3", "Or 1", "Or 2", "Or 3", "Platine 1", "Platine 2", "Platine 3", "Diamant 1", "Diamant 2", "Diamant 3", "Ascendant 1", "Ascendant 2", "Ascendant 3", "Immortel 1", "Immortel 2", "Immortel 3", "Radiant"];
             return ranks[rankId] || "Non Classé";
@@ -317,43 +428,43 @@
         function renderApp() {
             const db = GLOBAL_DATA.db;
             const filter = document.getElementById('queue-filter').value;
-            
+
             // User Profile
             const profile = GLOBAL_DATA.user_profile;
-            if(profile) {
+            if (profile) {
                 document.getElementById('user-name').textContent = profile.name;
                 document.getElementById('user-level').textContent = profile.level;
                 document.getElementById('user-rank-icon').src = getRankImg(profile.rank);
                 document.getElementById('user-rank-text').textContent = getRankName(profile.rank);
             }
-            
+
             let matches = Object.values(db.matches);
-            if(filter !== 'all') {
+            if (filter !== 'all') {
                 matches = matches.filter(m => m.queue === filter);
             }
-            
+
             // --- DASHBOARD STATS ---
             let totalWins = 0, totalKills = 0, totalHsSum = 0;
             matches.forEach(m => {
-                if(m.won) totalWins++;
+                if (m.won) totalWins++;
                 totalKills += m.kills;
                 totalHsSum += m.hs_percent;
             });
-            
+
             document.getElementById('stat-total-matches').textContent = matches.length;
-            document.getElementById('stat-winrate').textContent = matches.length ? Math.round((totalWins / matches.length)*100) : 0;
+            document.getElementById('stat-winrate').textContent = matches.length ? Math.round((totalWins / matches.length) * 100) : 0;
             document.getElementById('stat-hs').textContent = matches.length ? Math.round(totalHsSum / matches.length) : 0;
             document.getElementById('stat-total-kills').textContent = totalKills;
 
             // Best Agent
             let bestAgentId = null, bestAgentMatches = -1;
-            let bestAgentStatsAgg = {matches:0, wins:0, kills:0, deaths:0};
-            
-            for(const [aid, stats] of Object.entries(db.agents)) {
-                let agg = {matches:0, wins:0, kills:0, deaths:0};
-                if(stats.queues) {
-                    for(const [q, qStats] of Object.entries(stats.queues)) {
-                        if(filter === 'all' || filter === q) {
+            let bestAgentStatsAgg = { matches: 0, wins: 0, kills: 0, deaths: 0 };
+
+            for (const [aid, stats] of Object.entries(db.agents)) {
+                let agg = { matches: 0, wins: 0, kills: 0, deaths: 0 };
+                if (stats.queues) {
+                    for (const [q, qStats] of Object.entries(stats.queues)) {
+                        if (filter === 'all' || filter === q) {
                             agg.matches += qStats.matches;
                             agg.wins += qStats.wins;
                             agg.kills += qStats.kills;
@@ -361,21 +472,21 @@
                         }
                     }
                 }
-                if(agg.matches > bestAgentMatches) {
+                if (agg.matches > bestAgentMatches) {
                     bestAgentMatches = agg.matches;
                     bestAgentId = aid;
                     bestAgentStatsAgg = agg;
                 }
             }
-            
-            if(bestAgentId && GLOBAL_DATA.agents[bestAgentId] && bestAgentMatches > 0) {
+
+            if (bestAgentId && GLOBAL_DATA.agents[bestAgentId] && bestAgentMatches > 0) {
                 const aData = GLOBAL_DATA.agents[bestAgentId];
                 const aStats = bestAgentStatsAgg;
                 document.getElementById('best-agent-img').src = aData.icon;
                 document.getElementById('best-agent-img').style.display = 'block';
                 document.getElementById('best-agent-name').textContent = aData.name;
                 document.getElementById('best-agent-matches').textContent = aStats.matches;
-                document.getElementById('best-agent-winrate').textContent = Math.round((aStats.wins/aStats.matches)*100) + '%';
+                document.getElementById('best-agent-winrate').textContent = Math.round((aStats.wins / aStats.matches) * 100) + '%';
                 document.getElementById('best-agent-kd').textContent = (aStats.kills / Math.max(1, aStats.deaths)).toFixed(2);
             } else {
                 document.getElementById('best-agent-img').style.display = 'none';
@@ -388,8 +499,8 @@
             // Best Categories
             const catKills = {};
             matches.forEach(m => {
-                if(m.best_weapons) {
-                    for(const [cat, wid] of Object.entries(m.best_weapons)) {
+                if (m.best_weapons) {
+                    for (const [cat, wid] of Object.entries(m.best_weapons)) {
                         catKills[cat] = (catKills[cat] || {});
                         catKills[cat][wid] = (catKills[cat][wid] || 0) + 1; // Number of matches where it was the best
                     }
@@ -399,10 +510,10 @@
             bestCatContainer.innerHTML = '';
             const catsToShow = ['Rifle', 'Sidearm', 'Sniper', 'SMG'];
             catsToShow.forEach(cat => {
-                if(catKills[cat]) {
+                if (catKills[cat]) {
                     let bestW = Object.keys(catKills[cat]).reduce((a, b) => catKills[cat][a] > catKills[cat][b] ? a : b);
                     const wData = GLOBAL_DATA.weapons[bestW];
-                    if(wData) {
+                    if (wData) {
                         bestCatContainer.innerHTML += `
                             <div class="bg-gray-800/50 p-3 rounded-lg flex items-center justify-between border border-gray-700">
                                 <div>
@@ -420,14 +531,14 @@
             const histList = document.getElementById('history-list');
             histList.innerHTML = '';
             // Sort matches descending by ID (rough chronological)
-            const sortedMatches = Object.entries(db.matches).sort((a,b) => b[0].localeCompare(a[0]));
-            if(sortedMatches.length === 0) histList.innerHTML = '<div class="text-gray-500 text-center py-10">Aucun match dans la base de données.</div>';
+            const sortedMatches = Object.entries(db.matches).sort((a, b) => b[0].localeCompare(a[0]));
+            if (sortedMatches.length === 0) histList.innerHTML = '<div class="text-gray-500 text-center py-10">Aucun match dans la base de données.</div>';
             sortedMatches.forEach(([mid, m]) => {
-                const aData = GLOBAL_DATA.agents[m.agent] || {name: "Inconnu", icon:""};
+                const aData = GLOBAL_DATA.agents[m.agent] || { name: "Inconnu", icon: "" };
                 const kdRatio = (m.kills / Math.max(1, m.deaths)).toFixed(2);
                 let bestWName = "N/A";
-                if(m.best_weapons && m.best_weapons['Rifle']) bestWName = GLOBAL_DATA.weapons[m.best_weapons['Rifle']]?.name || "N/A";
-                
+                if (m.best_weapons && m.best_weapons['Rifle']) bestWName = GLOBAL_DATA.weapons[m.best_weapons['Rifle']]?.name || "N/A";
+
                 histList.innerHTML += `
                     <div class="flex items-center justify-between p-3 rounded bg-opacity-20 ${m.won ? 'bg-green-500 border-l-4 border-green-500' : 'bg-red-500 border-l-4 border-red-500'}">
                         <div class="flex items-center gap-3 w-1/4">
@@ -460,27 +571,27 @@
             // --- CASIER TAB ---
             const casierGrid = document.getElementById('casier-grid');
             casierGrid.innerHTML = '';
-            
+
             // Reorder categories logically
             const order = ['Sidearm', 'SMG', 'Shotgun', 'Rifle', 'Sniper', 'Heavy', 'Melee'];
             const wList = Object.entries(GLOBAL_DATA.weapons).sort((a, b) => {
                 let ixA = order.indexOf(a[1].category); let ixB = order.indexOf(b[1].category);
-                if(ixA === -1) ixA = 99; if(ixB === -1) ixB = 99;
+                if (ixA === -1) ixA = 99; if (ixB === -1) ixB = 99;
                 return ixA - ixB;
             });
 
             wList.forEach(([wid, wData]) => {
                 const currentSkinId = GLOBAL_DATA.current_loadout[wid];
                 let currentSkinData = null;
-                if(currentSkinId && wData.skins[currentSkinId]) {
+                if (currentSkinId && wData.skins[currentSkinId]) {
                     currentSkinData = wData.skins[currentSkinId];
                 }
-                
+
                 let dbKills = 0;
-                if(db.skins[wid] && currentSkinId && db.skins[wid][currentSkinId]) {
+                if (db.skins[wid] && currentSkinId && db.skins[wid][currentSkinId]) {
                     const qs = db.skins[wid][currentSkinId].queues || {};
-                    for(const [q, qStats] of Object.entries(qs)) {
-                        if(filter === 'all' || filter === q) {
+                    for (const [q, qStats] of Object.entries(qs)) {
+                        if (filter === 'all' || filter === q) {
                             dbKills += qStats.kills;
                         }
                     }
@@ -507,25 +618,25 @@
         function openTop3(weaponId) {
             const filter = document.getElementById('queue-filter').value;
             const wData = GLOBAL_DATA.weapons[weaponId];
-            if(!wData) return;
-            
+            if (!wData) return;
+
             document.getElementById('modal-weapon-title').textContent = `TOP 3 SKINS : ${wData.name}`;
             const content = document.getElementById('modal-content');
             content.innerHTML = '';
 
             const skinsDb = GLOBAL_DATA.db.skins[weaponId] || {};
-            
+
             const aggregatedSkins = {};
-            for(const [skinId, stats] of Object.entries(skinsDb)) {
+            for (const [skinId, stats] of Object.entries(skinsDb)) {
                 let aggKills = 0;
-                if(stats.queues) {
-                    for(const [q, qStats] of Object.entries(stats.queues)) {
-                        if(filter === 'all' || filter === q) {
+                if (stats.queues) {
+                    for (const [q, qStats] of Object.entries(stats.queues)) {
+                        if (filter === 'all' || filter === q) {
                             aggKills += qStats.kills;
                         }
                     }
                 }
-                if(aggKills > 0) aggregatedSkins[skinId] = {kills: aggKills};
+                if (aggKills > 0) aggregatedSkins[skinId] = { kills: aggKills };
             }
 
             // Sort skins by kills descending
@@ -533,17 +644,17 @@
                 .sort((a, b) => b[1].kills - a[1].kills)
                 .slice(0, 3); // Take top 3
 
-            if(sortedSkins.length === 0) {
+            if (sortedSkins.length === 0) {
                 content.innerHTML = `<div class="col-span-3 text-center text-gray-400 py-10">Aucun kill enregistré avec cette arme dans la base de données.</div>`;
             } else {
                 sortedSkins.forEach(([skinId, stats], index) => {
-                    const skinData = wData.skins[skinId] || {name: "Inconnu", icon: wData.icon};
+                    const skinData = wData.skins[skinId] || { name: "Inconnu", icon: wData.icon };
                     const color = index === 0 ? 'text-yellow-400' : index === 1 ? 'text-gray-300' : 'text-orange-400';
                     const border = index === 0 ? 'border-yellow-400' : index === 1 ? 'border-gray-300' : 'border-orange-400';
-                    
+
                     content.innerHTML += `
                         <div class="bg-gray-800/80 rounded-lg p-4 flex flex-col items-center justify-between border-t-4 ${border} relative h-56">
-                            <div class="absolute -top-4 bg-gray-900 border border-gray-700 w-8 h-8 rounded-full flex items-center justify-center valo-font ${color} shadow-lg">#${index+1}</div>
+                            <div class="absolute -top-4 bg-gray-900 border border-gray-700 w-8 h-8 rounded-full flex items-center justify-center valo-font ${color} shadow-lg">#${index + 1}</div>
                             <h3 class="text-sm text-center font-bold text-white mt-4 h-10 overflow-hidden">${skinData.name}</h3>
                             <div class="flex-grow flex items-center justify-center w-full px-2">
                                 <img src="${skinData.icon || wData.icon}" class="max-w-full max-h-16 object-contain drop-shadow-xl">
@@ -567,4 +678,5 @@
         }
     </script>
 </body>
+
 </html>
