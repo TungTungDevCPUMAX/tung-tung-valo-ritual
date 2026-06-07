@@ -137,6 +137,53 @@
         </div>
     </div>
 
+    <!-- Modal Top Agents -->
+    <div id="top-agents-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-4xl rounded-lg p-6 relative">
+            <button onclick="closeModalAgents()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+            <h2 class="text-3xl valo-font accent-red mb-6 text-center">TOP 5 AGENTS</h2>
+            <div id="modal-agents-content" class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <!-- Injected Top Agents -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Match Details -->
+    <div id="match-details-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-5xl rounded-lg p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeMatchDetails()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl z-10">&times;</button>
+            <h2 class="text-3xl valo-font text-white text-center mb-2">RÉSUMÉ DU MATCH</h2>
+            <div id="match-details-result" class="text-2xl font-bold valo-font tracking-widest text-center mb-2"></div>
+            <div class="flex justify-center mb-8">
+                <div class="bg-gray-800 bg-opacity-60 border border-gray-600 rounded px-6 py-2 flex items-center gap-4">
+                    <div id="match-details-map" class="text-lg font-bold text-white tracking-wider uppercase">MAP INCONNUE</div>
+                    <div class="w-px h-5 bg-gray-500"></div>
+                    <div id="match-details-mode" class="text-sm text-gray-300 font-bold tracking-widest uppercase">INCONNU</div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Équipe Bleue -->
+                <div>
+                    <h3 class="text-xl font-bold text-blue-400 mb-4 uppercase tracking-widest text-center">Équipe Bleue</h3>
+                    <div id="blue-team-content" class="flex flex-col gap-2">
+                        <!-- Injected Blue Team -->
+                    </div>
+                </div>
+                
+                <!-- Équipe Rouge -->
+                <div>
+                    <h3 class="text-xl font-bold text-red-500 mb-4 uppercase tracking-widest text-center">Équipe Rouge</h3>
+                    <div id="red-team-content" class="flex flex-col gap-2">
+                        <!-- Injected Red Team -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="max-w-7xl w-full mx-auto relative z-10 flex-grow flex flex-col">
 
         <header class="flex flex-col md:flex-row justify-between items-center mb-8 shrink-0 gap-4">
@@ -163,22 +210,18 @@
                     <option value="unrated">NON CLASSÉ</option>
                     <option value="swiftplay">SWIFTPLAY</option>
                     <option value="spikerush">SPIKE RUSH</option>
+                    <option value="skirmishascension2v2">ASCENSION 2V2</option>
                 </select>
-                <button onclick="resetStats()"
-                    class="bg-red-600/80 hover:bg-red-600 text-white text-xs px-2 py-1 rounded font-bold uppercase transition flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 6h18" />
-                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                        <line x1="10" x2="10" y1="11" y2="17" />
-                        <line x1="14" x2="14" y1="11" y2="17" />
-                    </svg>
-                </button>
                 <div id="sync-status" class="text-xs text-green-400 flex items-center gap-1"><span
                         class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Auto-Sync Actif</div>
             </div>
         </header>
+
+        <!-- Offline Banner -->
+        <div id="offline-banner" class="hidden bg-red-900/40 border border-red-500/50 text-red-200 p-3 rounded-lg mb-6 flex items-center justify-center gap-3 shadow-lg">
+            <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <span class="text-sm tracking-wide"><strong>MODE HORS LIGNE :</strong> Lancez Valorant pour actualiser vos statistiques en temps réel.</span>
+        </div>
 
         <div class="flex-grow relative h-full">
 
@@ -202,7 +245,7 @@
                 </div>
 
                 <!-- Global Stats -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                     <div class="glass-panel p-4 rounded-lg text-center">
                         <div class="text-gray-400 text-xs tracking-widest uppercase mb-1">Matchs Analysés</div>
                         <div class="text-3xl valo-font text-white" id="stat-total-matches">0</div>
@@ -213,24 +256,32 @@
                                 id="stat-winrate">0</span><span class="text-lg text-gray-500 mb-1">%</span></div>
                     </div>
                     <div class="glass-panel p-4 rounded-lg text-center">
+                        <div class="text-gray-400 text-xs tracking-widest uppercase mb-1">Ratio K/D</div>
+                        <div class="text-3xl valo-font text-white" id="stat-kd">0.00</div>
+                    </div>
+                    <div class="glass-panel p-4 rounded-lg text-center">
                         <div class="text-gray-400 text-xs tracking-widest uppercase mb-1">HS% Moyen</div>
                         <div class="text-3xl valo-font text-white flex items-end justify-center gap-1"><span
                                 id="stat-hs">0</span><span class="text-lg text-gray-500 mb-1">%</span></div>
                     </div>
                     <div class="glass-panel p-4 rounded-lg text-center">
-                        <div class="text-gray-400 text-xs tracking-widest uppercase mb-1">Kills Enregistrés</div>
+                        <div class="text-gray-400 text-xs tracking-widest uppercase mb-1">Kills Totaux</div>
                         <div class="text-3xl valo-font text-white" id="stat-total-kills">0</div>
+                    </div>
+                    <div class="glass-panel p-4 rounded-lg text-center">
+                        <div class="text-gray-400 text-xs tracking-widest uppercase mb-1">Temps de Jeu</div>
+                        <div class="text-2xl valo-font text-white mt-1" id="stat-playtime">0h 0m</div>
                     </div>
                 </div>
 
                 <!-- Best Agent & Best Weapons -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
-                    <div
-                        class="glass-panel p-6 rounded-lg flex flex-col relative overflow-hidden group border-t-2 border-red-500">
+                    <div onclick="openTopAgents()"
+                        class="glass-panel p-6 rounded-lg flex flex-col relative overflow-hidden group border-t-2 border-red-500 cursor-pointer hover:border-red-400 transition-colors">
                         <div
                             class="absolute top-0 right-0 p-4 opacity-5 valo-font text-8xl pointer-events-none transform translate-x-10 -translate-y-4">
                             MAIN</div>
-                        <h3 class="text-gray-400 text-sm tracking-widest uppercase mb-4">Meilleur Agent</h3>
+                        <h3 class="text-gray-400 text-sm tracking-widest uppercase mb-4">Meilleur Agent <span class="text-[10px] text-red-500 float-right mt-1 font-bold">(VOIR TOP 5)</span></h3>
                         <div class="flex items-center gap-6 z-10" id="best-agent-container">
                             <img id="best-agent-img" src=""
                                 class="w-32 h-32 rounded-full border-4 border-red-500/50 shadow-[0_0_15px_rgba(255,70,85,0.5)] object-cover"
@@ -323,7 +374,7 @@
             } catch (e) { console.error('Failed to load skins DB', e); }
 
             fetchData();
-            setInterval(fetchData, 1 * 60 * 1000);
+            setInterval(fetchData, 15000);
         };
 
         function switchTab(tab) {
@@ -340,24 +391,6 @@
             document.getElementById('view-live').classList.add('hidden');
 
             document.getElementById('view-' + tab).classList.remove('hidden');
-        }
-
-        async function resetStats() {
-            if (confirm("Êtes-vous sûr de vouloir supprimer toutes vos statistiques et votre historique ? (Action irréversible)")) {
-                try {
-                    const res = await fetch('/api/reset', { method: 'POST' });
-                    if (res.ok) {
-                        if (GLOBAL_DATA) {
-                            GLOBAL_DATA.db = { processed_matches: [], matches: {}, agents: {}, skins: {}, locked_loadouts: {} };
-                        }
-                        renderApp();
-                        alert("Statistiques réinitialisées avec succès !");
-                    }
-                } catch (e) {
-                    console.error(e);
-                    alert("Erreur lors de la réinitialisation.");
-                }
-            }
         }
 
         async function fetchData() {
@@ -377,7 +410,12 @@
                 if (data.error) throw new Error(data.error);
 
                 GLOBAL_DATA = data;
-                renderApp();
+                
+                try {
+                    renderApp();
+                } catch(renderErr) {
+                    throw new Error("Render Error: " + renderErr.message);
+                }
 
                 if (overlay.style.opacity == '1') {
                     overlay.style.opacity = '0';
@@ -389,6 +427,12 @@
                 const timeStr = `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
 
                 let syncHtml = `<span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Sync: ${timeStr}`;
+                if (data.offline) {
+                    document.getElementById('offline-banner').classList.remove('hidden');
+                } else {
+                    document.getElementById('offline-banner').classList.add('hidden');
+                }
+                
                 if (data.is_in_game) {
                     syncHtml = `<span class="bg-red-500 text-white text-xs px-2 py-1 rounded font-bold uppercase animate-pulse">En Partie : Skins Verrouillés</span> ` + syncHtml;
                     document.getElementById('tab-live').classList.remove('hidden');
@@ -403,14 +447,22 @@
 
             } catch (error) {
                 console.error(error);
-                if (!GLOBAL_DATA) {
+                if (!GLOBAL_DATA || !GLOBAL_DATA.success) {
                     document.querySelector('.loader').style.display = 'none';
                     document.getElementById('loading-text').textContent = "Le chargement a échoué.";
                     errorMsg.textContent = error.message || "Serveur Flask inaccessible.";
                     errorMsg.classList.remove('hidden');
                     retryBtn.classList.remove('hidden');
                 } else {
-                    document.getElementById('sync-status').innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500"></span> Erreur Sync`;
+                    // Hide overlay so the user can see the dashboard
+                    document.querySelector('.loader').style.display = 'none';
+                    document.getElementById('loading-text').style.display = 'none';
+                    if (overlay.style.opacity == '1') {
+                        overlay.style.opacity = '0';
+                        setTimeout(() => { overlay.style.pointerEvents = 'none'; }, 500);
+                    }
+                    // Show error directly on dashboard if possible
+                    document.getElementById('sync-status').innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500"></span> ${error.message}`;
                 }
             }
         }
@@ -425,6 +477,52 @@
             return ranks[rankId] || "Non Classé";
         }
 
+        function formatMapName(mapUrl) {
+            if (!mapUrl) return "MAP INCONNUE";
+            const m = mapUrl.toLowerCase();
+            if (m.includes("ascent")) return "Ascent";
+            if (m.includes("bonsai")) return "Split";
+            if (m.includes("canyon")) return "Fracture";
+            if (m.includes("duality")) return "Bind";
+            if (m.includes("foxtrot")) return "Breeze";
+            if (m.includes("jam")) return "Lotus";
+            if (m.includes("juliett")) return "Sunset";
+            if (m.includes("pitt")) return "Pearl";
+            if (m.includes("port")) return "Icebox";
+            if (m.includes("triad")) return "Haven";
+            if (m.includes("infinity")) return "Abyss";
+            if (m.includes("poveglia")) return "The Range";
+            if (m.includes("hurm_alley")) return "District";
+            if (m.includes("hurm_bowl")) return "Kasbah";
+            if (m.includes("hurm_yard")) return "Piazza";
+            if (m.includes("hurm_klima")) return "Drift";
+            if (m.includes("hurm_glitch")) return "Glitch";
+            return "MAP INCONNUE";
+        }
+
+        function formatQueueName(q) {
+            if (!q) return "INCONNU";
+            const map = {
+                "unrated": "NON CLASSÉ",
+                "competitive": "COMPÉTITIF",
+                "deathmatch": "MME",
+                "spikerush": "SPIKE RUSH",
+                "swiftplay": "VÉLOCITÉ",
+                "ggteam": "ESCALADE",
+                "hurm": "MME EN ÉQUIPE",
+                "skirmishascension2v2": "ASCENSION 2V2",
+                "custom": "PARTIE PERSO"
+            };
+            return map[q.toLowerCase()] || q.toUpperCase();
+        }
+
+        function getAgentScore(a) {
+            const wr = a.wins / Math.max(1, a.matches);
+            const kd = a.kills / Math.max(1, a.deaths);
+            // Score formula: (Winrate% * 1) + (KD * 50) + (Matches * 5)
+            return (wr * 100) + (kd * 50) + (a.matches * 5);
+        }
+
         function renderApp() {
             const db = GLOBAL_DATA.db;
             const filter = document.getElementById('queue-filter').value;
@@ -432,10 +530,10 @@
             // User Profile
             const profile = GLOBAL_DATA.user_profile;
             if (profile) {
-                document.getElementById('user-name').textContent = profile.name;
-                document.getElementById('user-level').textContent = profile.level;
-                document.getElementById('user-rank-icon').src = getRankImg(profile.rank);
-                document.getElementById('user-rank-text').textContent = getRankName(profile.rank);
+                document.getElementById('user-name').textContent = profile.name || "Inconnu";
+                document.getElementById('user-level').textContent = profile.level || 0;
+                document.getElementById('user-rank-icon').src = getRankImg(profile.rank || 0);
+                document.getElementById('user-rank-text').textContent = getRankName(profile.rank || 0);
             }
 
             let matches = Object.values(db.matches);
@@ -444,22 +542,41 @@
             }
 
             // --- DASHBOARD STATS ---
-            let totalWins = 0, totalKills = 0, totalHsSum = 0;
-            matches.forEach(m => {
-                if (m.won) totalWins++;
-                totalKills += m.kills;
-                totalHsSum += m.hs_percent;
-            });
+            let totalMatches = 0, totalWins = 0, totalKills = 0, totalDeaths = 0, totalHs = 0, totalHits = 0, totalPlaytime = 0;
+            const wpnKills = {};
 
-            document.getElementById('stat-total-matches').textContent = matches.length;
-            document.getElementById('stat-winrate').textContent = matches.length ? Math.round((totalWins / matches.length) * 100) : 0;
-            document.getElementById('stat-hs').textContent = matches.length ? Math.round(totalHsSum / matches.length) : 0;
+            if (db.player_stats && db.player_stats.queues) {
+                for (const [q, qStats] of Object.entries(db.player_stats.queues)) {
+                    if (filter === 'all' || filter === q) {
+                        totalMatches += qStats.matches;
+                        totalWins += qStats.wins;
+                        totalKills += qStats.kills;
+                        totalDeaths += qStats.deaths;
+                        totalHs += qStats.headshots;
+                        totalHits += qStats.total_hits;
+                        totalPlaytime += qStats.playtime_millis;
+                        
+                        // Accumulate weapons
+                        for (const [wid, count] of Object.entries(qStats.weapon_kills || {})) {
+                            wpnKills[wid] = (wpnKills[wid] || 0) + count;
+                        }
+                    }
+                }
+            }
+
+            document.getElementById('stat-total-matches').textContent = totalMatches;
+            document.getElementById('stat-winrate').textContent = totalMatches ? Math.round((totalWins / totalMatches) * 100) : 0;
+            document.getElementById('stat-kd').textContent = totalDeaths ? (totalKills / totalDeaths).toFixed(2) : (totalKills > 0 ? totalKills.toFixed(2) : "0.00");
+            document.getElementById('stat-hs').textContent = totalHits ? Math.round((totalHs / totalHits) * 100) : 0;
             document.getElementById('stat-total-kills').textContent = totalKills;
+            
+            // Playtime math
+            const hours = Math.floor(totalPlaytime / 3600000);
+            const minutes = Math.floor((totalPlaytime % 3600000) / 60000);
+            document.getElementById('stat-playtime').textContent = `${hours}h ${minutes}m`;
 
             // Best Agent
-            let bestAgentId = null, bestAgentMatches = -1;
-            let bestAgentStatsAgg = { matches: 0, wins: 0, kills: 0, deaths: 0 };
-
+            let agentsArray = [];
             for (const [aid, stats] of Object.entries(db.agents)) {
                 let agg = { matches: 0, wins: 0, kills: 0, deaths: 0 };
                 if (stats.queues) {
@@ -472,14 +589,24 @@
                         }
                     }
                 }
-                if (agg.matches > bestAgentMatches) {
-                    bestAgentMatches = agg.matches;
-                    bestAgentId = aid;
-                    bestAgentStatsAgg = agg;
+                if (agg.matches > 0) {
+                    agentsArray.push({ id: aid, ...agg });
                 }
             }
 
-            if (bestAgentId && GLOBAL_DATA.agents[bestAgentId] && bestAgentMatches > 0) {
+            agentsArray.sort((a, b) => {
+                return getAgentScore(b) - getAgentScore(a);
+            });
+
+            let bestAgentId = null;
+            let bestAgentStatsAgg = { matches: 0, wins: 0, kills: 0, deaths: 0 };
+
+            if (agentsArray.length > 0) {
+                bestAgentId = agentsArray[0].id;
+                bestAgentStatsAgg = agentsArray[0];
+            }
+
+            if (bestAgentId && GLOBAL_DATA.agents[bestAgentId] && bestAgentStatsAgg.matches > 0) {
                 const aData = GLOBAL_DATA.agents[bestAgentId];
                 const aStats = bestAgentStatsAgg;
                 document.getElementById('best-agent-img').src = aData.icon;
@@ -498,14 +625,14 @@
 
             // Best Categories
             const catKills = {};
-            matches.forEach(m => {
-                if (m.best_weapons) {
-                    for (const [cat, wid] of Object.entries(m.best_weapons)) {
-                        catKills[cat] = (catKills[cat] || {});
-                        catKills[cat][wid] = (catKills[cat][wid] || 0) + 1; // Number of matches where it was the best
-                    }
+            for (const [wid, count] of Object.entries(wpnKills)) {
+                const wData = GLOBAL_DATA.weapons[wid];
+                if (wData) {
+                    const cat = wData.category;
+                    catKills[cat] = catKills[cat] || {};
+                    catKills[cat][wid] = (catKills[cat][wid] || 0) + count;
                 }
-            });
+            }
             const bestCatContainer = document.getElementById('best-categories-container');
             bestCatContainer.innerHTML = '';
             const catsToShow = ['Rifle', 'Sidearm', 'Sniper', 'SMG'];
@@ -530,22 +657,37 @@
             // --- HISTORY TAB ---
             const histList = document.getElementById('history-list');
             histList.innerHTML = '';
-            // Sort matches descending by ID (rough chronological)
-            const sortedMatches = Object.entries(db.matches).sort((a, b) => b[0].localeCompare(a[0]));
-            if (sortedMatches.length === 0) histList.innerHTML = '<div class="text-gray-500 text-center py-10">Aucun match dans la base de données.</div>';
-            sortedMatches.forEach(([mid, m]) => {
+            
+            // Sort matches using the processed_matches array (newest first)
+            const processed = db.processed_matches || [];
+            let sortedMatches = Object.entries(db.matches || {});
+            
+            if (filter !== 'all') {
+                sortedMatches = sortedMatches.filter(m => m[1].queue === filter);
+            }
+            
+            sortedMatches.sort((a, b) => {
+                const idxA = processed.indexOf(a[0]);
+                const idxB = processed.indexOf(b[0]);
+                return idxB - idxA;
+            });
+            
+            if(sortedMatches.length === 0) histList.innerHTML = '<div class="text-gray-500 text-center py-10">Aucun match dans la base de données.</div>';
+            sortedMatches.slice(0, 30).forEach(([mid, m]) => {
                 const aData = GLOBAL_DATA.agents[m.agent] || { name: "Inconnu", icon: "" };
                 const kdRatio = (m.kills / Math.max(1, m.deaths)).toFixed(2);
                 let bestWName = "N/A";
                 if (m.best_weapons && m.best_weapons['Rifle']) bestWName = GLOBAL_DATA.weapons[m.best_weapons['Rifle']]?.name || "N/A";
 
+                const scoreStr = (m.my_score !== undefined && m.enemy_score !== undefined) ? ` ${m.my_score} - ${m.enemy_score}` : '';
+
                 histList.innerHTML += `
-                    <div class="flex items-center justify-between p-3 rounded bg-opacity-20 ${m.won ? 'bg-green-500 border-l-4 border-green-500' : 'bg-red-500 border-l-4 border-red-500'}">
+                    <div onclick="openMatchDetails('${mid}')" class="flex items-center justify-between p-3 rounded bg-opacity-20 cursor-pointer hover:border-red-500 border border-transparent transition-all ${m.won ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}">
                         <div class="flex items-center gap-3 w-1/4">
                             <img src="${aData.icon}" class="w-10 h-10 rounded bg-gray-800">
                             <div class="flex flex-col">
-                                <span class="font-bold valo-font text-lg ${m.won ? 'text-green-400' : 'text-red-400'}">${m.won ? 'VICTOIRE' : 'DÉFAITE'}</span>
-                                <span class="text-xs text-gray-400">${aData.name}</span>
+                                <span class="font-bold valo-font text-lg ${m.won ? 'text-green-400' : 'text-red-400'}">${m.won ? 'VICTOIRE' : 'DÉFAITE'}${scoreStr}</span>
+                                <span class="text-xs text-gray-400">${aData.name} &bull; <span class="text-gray-300 font-bold">${formatQueueName(m.queue)}</span></span>
                             </div>
                         </div>
                         <div class="text-center px-2 flex-grow">
@@ -554,7 +696,7 @@
                         </div>
                         <div class="text-center px-2 flex-grow hidden md:block">
                             <div class="text-sm text-gray-300">Headshots</div>
-                            <div class="font-bold text-accent-red">${m.hs_percent}%</div>
+                            <div class="font-bold text-accent-red">${m.hs_percent > 0 ? m.hs_percent + '%' : 'N/A'}</div>
                         </div>
                         <div class="text-center px-2 flex-grow hidden lg:block">
                             <div class="text-sm text-gray-300">Best Rifle</div>
@@ -581,7 +723,37 @@
             });
 
             wList.forEach(([wid, wData]) => {
-                const currentSkinId = GLOBAL_DATA.current_loadout[wid];
+                let currentSkinId = (GLOBAL_DATA.current_loadout || {})[wid];
+                let isTop1 = false;
+                
+                if (GLOBAL_DATA.offline || !currentSkinId) {
+                    if (db.skins[wid]) {
+                        const sortedSkins = Object.entries(db.skins[wid]).sort((a, b) => {
+                            let kA = 0, kB = 0;
+                            for (const [q, qStats] of Object.entries(a[1].queues || {})) {
+                                if (filter === 'all' || filter === q) kA += qStats.kills;
+                            }
+                            for (const [q, qStats] of Object.entries(b[1].queues || {})) {
+                                if (filter === 'all' || filter === q) kB += qStats.kills;
+                            }
+                            return kB - kA;
+                        });
+                        
+                        // Pick the first one if it has kills
+                        let topKills = 0;
+                        if (sortedSkins.length > 0) {
+                            for (const [q, qStats] of Object.entries(sortedSkins[0][1].queues || {})) {
+                                if (filter === 'all' || filter === q) topKills += qStats.kills;
+                            }
+                        }
+                        
+                        if (topKills > 0) {
+                            currentSkinId = sortedSkins[0][0];
+                            isTop1 = true;
+                        }
+                    }
+                }
+
                 let currentSkinData = null;
                 if (currentSkinId && wData.skins[currentSkinId]) {
                     currentSkinData = wData.skins[currentSkinId];
@@ -596,6 +768,9 @@
                         }
                     }
                 }
+                
+                const skinNameDisplay = currentSkinData ? currentSkinData.name : 'Skin Standard';
+                const labelDisplay = isTop1 ? `<span class="text-[10px] bg-yellow-500 text-black px-1 rounded uppercase font-bold mr-1">TOP 1</span>` : '';
 
                 casierGrid.innerHTML += `
                     <div class="weapon-card glass-panel rounded-lg p-4 flex flex-col items-center justify-between cursor-pointer group border border-transparent hover:border-red-500 transition-colors h-48" onclick="openTop3('${wid}')">
@@ -607,12 +782,102 @@
                             <img src="${(currentSkinData && currentSkinData.icon) ? currentSkinData.icon : wData.icon}" class="weapon-img max-w-full max-h-16 object-contain transition-transform duration-300 drop-shadow-lg">
                         </div>
                         <div class="w-full mt-2 text-center">
-                            <p class="text-xs text-gray-400 truncate">${currentSkinData ? currentSkinData.name : 'Skin Standard'}</p>
+                            <p class="text-xs text-gray-400 truncate">${labelDisplay}${skinNameDisplay}</p>
                             <p class="text-sm font-bold text-accent-red mt-1">${dbKills} Kills DB</p>
                         </div>
                     </div>
                 `;
             });
+
+            // Live Match Data
+            if (GLOBAL_DATA.is_in_game && GLOBAL_DATA.live_match) {
+                const stateStr = GLOBAL_DATA.live_match.state === "coregame" ? "PARTIE EN COURS" : "SÉLECTION DES AGENTS";
+                const qStr = GLOBAL_DATA.live_match.queue ? formatQueueName(GLOBAL_DATA.live_match.queue) : '';
+                document.getElementById('live-match-state').textContent = stateStr + (qStr ? ` • ${qStr}` : '');
+                
+                const allyContainer = document.getElementById('live-ally-team');
+                const enemyContainer = document.getElementById('live-enemy-team');
+                allyContainer.innerHTML = '';
+                enemyContainer.innerHTML = '';
+
+                let myTeamId = "";
+                const me = GLOBAL_DATA.live_match.players.find(p => p.is_me);
+                if (me) myTeamId = me.team;
+                
+                function getSkinId(loadout, weaponId) {
+                    try {
+                        const sockets = loadout.Items[weaponId].Sockets;
+                        for (const socketId in sockets) {
+                            const item = sockets[socketId].Item;
+                            if(item && item.ID && ALL_SKINS[item.ID.toLowerCase()]) {
+                                return item.ID.toLowerCase();
+                            }
+                        }
+                    } catch(e) {}
+                    return null;
+                }
+
+                const WPN_VANDAL = "9c82e19d-4575-0200-1a81-3eacf00cf872";
+                const WPN_PHANTOM = "ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a";
+                const WPN_MELEE = "2f59173c-4bed-b6c3-21ed-d610619939ac";
+
+                GLOBAL_DATA.live_match.players.forEach(p => {
+                    const isAlly = (p.team === myTeamId) || (myTeamId === "" && p.team === "Blue");
+
+                    // Extraire les skins
+                    let skinsHtml = '';
+                    if (p.loadout && p.loadout.Items) {
+                        const meleeId = getSkinId(p.loadout, WPN_MELEE);
+                        const vandalId = getSkinId(p.loadout, WPN_VANDAL);
+                        const phantomId = getSkinId(p.loadout, WPN_PHANTOM);
+                        
+                        const renderSkin = (skinId) => {
+                            if(!skinId || !ALL_SKINS[skinId]) return '';
+                            const skin = ALL_SKINS[skinId];
+                            const icon = skin.displayIcon || skin.wallpaper || 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+                            return `<div class="flex flex-col items-center w-16" title="${skin.displayName}">
+                                <img src="${icon}" class="w-12 h-6 object-contain drop-shadow">
+                                <span class="text-[8px] text-gray-500 truncate w-full text-center">${skin.displayName.replace(/ Vandal| Phantom| Knife| Melee| Sword/g, '')}</span>
+                            </div>`;
+                        };
+                        
+                        skinsHtml = `<div class="flex items-center gap-2 border-l border-gray-700 pl-4 ml-auto">
+                            ${renderSkin(vandalId)}
+                            ${renderSkin(phantomId)}
+                            ${renderSkin(meleeId)}
+                        </div>`;
+                    }
+
+                    const row = document.createElement('div');
+                    row.className = `flex items-center gap-4 p-3 rounded bg-opacity-20 border border-gray-700 ${p.is_me ? 'bg-yellow-500 border-yellow-500' : (isAlly ? 'bg-blue-500' : 'bg-red-500')}`;
+                    
+                    let agentImg = p.character ? `https://media.valorant-api.com/agents/${p.character}/displayicon.png` : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+                    
+                    row.innerHTML = `
+                        <img src="${agentImg}" class="w-12 h-12 rounded-full bg-gray-900 border ${isAlly ? 'border-blue-500' : 'border-red-500'}" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='">
+                        <div class="flex-grow flex items-center">
+                            <div>
+                                  <div class="font-bold text-white text-lg flex items-center">${p.name} ${p.level > 0 ? `<span class="text-[8px] uppercase font-medium text-gray-400 border border-gray-700 bg-black/50 px-1 ml-2 h-3.5 flex items-center leading-none">LVL ${p.level}</span>` : ''}</div>
+                            </div>
+                        </div>
+                        ${skinsHtml}
+                        <div class="flex flex-col items-center justify-center min-w-[60px]">
+                            <img src="${getRankImg(p.rank_id)}" class="w-10 h-10 object-contain drop-shadow" title="${getRankName(p.rank_id)}" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='">
+                            <span class="text-[10px] text-gray-400 font-bold uppercase truncate w-full text-center">${getRankName(p.rank_id)}</span>
+                        </div>
+                    `;
+
+                    if (isAlly) {
+                        allyContainer.appendChild(row);
+                    } else {
+                        enemyContainer.appendChild(row);
+                    }
+                });
+
+                if (enemyContainer.children.length === 0) {
+                    enemyContainer.innerHTML = `<div class="text-gray-500 text-sm text-center italic mt-4">Les adversaires sont masqués pendant la sélection des agents.</div>`;
+                }
+            }
         }
 
         function openTop3(weaponId) {
@@ -629,19 +894,27 @@
             const aggregatedSkins = {};
             for (const [skinId, stats] of Object.entries(skinsDb)) {
                 let aggKills = 0;
+                let aggMatches = 0;
+                let aggWins = 0;
                 if (stats.queues) {
                     for (const [q, qStats] of Object.entries(stats.queues)) {
                         if (filter === 'all' || filter === q) {
                             aggKills += qStats.kills;
+                            aggMatches += (qStats.matches || 0);
+                            aggWins += (qStats.wins || 0);
                         }
                     }
                 }
-                if (aggKills > 0) aggregatedSkins[skinId] = { kills: aggKills };
+                if (aggKills > 0) aggregatedSkins[skinId] = { kills: aggKills, matches: Math.max(1, aggMatches), wins: aggWins };
             }
 
-            // Sort skins by kills descending
+            // Sort skins by Kills/Match score (balanced with total kills)
             const sortedSkins = Object.entries(aggregatedSkins)
-                .sort((a, b) => b[1].kills - a[1].kills)
+                .sort((a, b) => {
+                    const scoreA = (a[1].kills / a[1].matches) * 10 + a[1].kills;
+                    const scoreB = (b[1].kills / b[1].matches) * 10 + b[1].kills;
+                    return scoreB - scoreA;
+                })
                 .slice(0, 3); // Take top 3
 
             if (sortedSkins.length === 0) {
@@ -653,15 +926,27 @@
                     const border = index === 0 ? 'border-yellow-400' : index === 1 ? 'border-gray-300' : 'border-orange-400';
 
                     content.innerHTML += `
-                        <div class="bg-gray-800/80 rounded-lg p-4 flex flex-col items-center justify-between border-t-4 ${border} relative h-56">
+                        <div class="bg-gray-800/80 rounded-lg p-4 flex flex-col items-center justify-between border-t-4 ${border} relative h-64">
                             <div class="absolute -top-4 bg-gray-900 border border-gray-700 w-8 h-8 rounded-full flex items-center justify-center valo-font ${color} shadow-lg">#${index + 1}</div>
                             <h3 class="text-sm text-center font-bold text-white mt-4 h-10 overflow-hidden">${skinData.name}</h3>
                             <div class="flex-grow flex items-center justify-center w-full px-2">
                                 <img src="${skinData.icon || wData.icon}" class="max-w-full max-h-16 object-contain drop-shadow-xl">
                             </div>
-                            <div class="w-full bg-black/50 rounded p-2 text-center mt-2">
-                                <div class="valo-font text-2xl ${color}">${stats.kills}</div>
-                                <div class="text-xs text-gray-400 uppercase tracking-wider">Kills Totaux</div>
+                            <div class="w-full bg-black/50 rounded p-2 flex justify-around items-center mt-2">
+                                <div class="text-center">
+                                    <div class="valo-font text-2xl ${color}">${stats.kills}</div>
+                                    <div class="text-[10px] text-gray-400 uppercase tracking-wider">Kills</div>
+                                </div>
+                                <div class="w-px h-8 bg-gray-600"></div>
+                                <div class="text-center">
+                                    <div class="valo-font text-xl text-gray-200">${(stats.kills / stats.matches).toFixed(1)}</div>
+                                    <div class="text-[10px] text-gray-400 uppercase tracking-wider">K/M</div>
+                                </div>
+                                <div class="w-px h-8 bg-gray-600"></div>
+                                <div class="text-center">
+                                    <div class="valo-font text-xl text-gray-200">${Math.round((stats.wins / stats.matches) * 100) || 0}%</div>
+                                    <div class="text-[10px] text-gray-400 uppercase tracking-wider">Winrate</div>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -675,6 +960,137 @@
         function closeModal() {
             document.getElementById('top3-modal').classList.add('hidden');
             document.getElementById('top3-modal').classList.remove('flex');
+        }
+
+        function openTopAgents() {
+            const filter = document.getElementById('queue-filter').value;
+            const content = document.getElementById('modal-agents-content');
+            content.innerHTML = '';
+
+            const agentsAgg = {};
+            for (const [aid, stats] of Object.entries(GLOBAL_DATA.db.agents)) {
+                let agg = { matches: 0, wins: 0, kills: 0, deaths: 0 };
+                if (stats.queues) {
+                    for (const [q, qStats] of Object.entries(stats.queues)) {
+                        if (filter === 'all' || filter === q) {
+                            agg.matches += qStats.matches;
+                            agg.wins += qStats.wins;
+                            agg.kills += qStats.kills;
+                            agg.deaths += qStats.deaths;
+                        }
+                    }
+                }
+                if (agg.matches > 0) agentsAgg[aid] = agg;
+            }
+
+            // Sort by combined score
+            const sortedAgents = Object.entries(agentsAgg)
+                .sort((a, b) => {
+                    return getAgentScore(b[1]) - getAgentScore(a[1]);
+                })
+                .slice(0, 5);
+
+            if (sortedAgents.length === 0) {
+                content.innerHTML = `<div class="col-span-5 text-center text-gray-400 py-10">Aucun agent joué dans cette catégorie.</div>`;
+            } else {
+                sortedAgents.forEach(([aid, stats], index) => {
+                    const aData = GLOBAL_DATA.agents[aid] || { name: "Inconnu", icon: "" };
+                    const winrate = Math.round((stats.wins / stats.matches) * 100);
+                    const kd = (stats.kills / Math.max(1, stats.deaths)).toFixed(2);
+                    
+                    content.innerHTML += `
+                        <div class="bg-gray-800/80 rounded-lg p-4 flex flex-col items-center border-t-2 border-red-500 relative">
+                            <div class="absolute -top-3 bg-gray-900 border border-gray-700 w-6 h-6 rounded-full flex items-center justify-center valo-font text-white text-xs shadow-lg">#${index + 1}</div>
+                            <img src="${aData.icon}" class="w-16 h-16 rounded-full border-2 border-red-500/50 object-cover mb-3" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='">
+                            <h3 class="text-sm font-bold text-white mb-3 valo-font tracking-wide uppercase">${aData.name}</h3>
+                            <div class="w-full text-xs text-gray-400 flex justify-between mb-1"><span>Matchs</span><span class="text-white">${stats.matches}</span></div>
+                            <div class="w-full text-xs text-gray-400 flex justify-between mb-1"><span>Winrate</span><span class="${winrate >= 50 ? 'text-green-400' : 'text-red-400'}">${winrate}%</span></div>
+                            <div class="w-full text-xs text-gray-400 flex justify-between"><span>K/D</span><span class="${kd >= 1 ? 'text-green-400' : 'text-gray-400'}">${kd}</span></div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('top-agents-modal').classList.remove('hidden');
+            document.getElementById('top-agents-modal').classList.add('flex');
+        }
+
+        function closeModalAgents() {
+            document.getElementById('top-agents-modal').classList.add('hidden');
+            document.getElementById('top-agents-modal').classList.remove('flex');
+        }
+
+        function openMatchDetails(matchId) {
+            const match = GLOBAL_DATA.db.matches[matchId];
+            if (!match || !match.scoreboard) return;
+
+            const blueContainer = document.getElementById('blue-team-content');
+            const redContainer = document.getElementById('red-team-content');
+            const resultEl = document.getElementById('match-details-result');
+            
+            blueContainer.innerHTML = '';
+            redContainer.innerHTML = '';
+            
+            document.getElementById('match-details-map').textContent = formatMapName(match.map_id);
+            document.getElementById('match-details-mode').textContent = formatQueueName(match.queue);
+            
+            if (match.won) {
+                const scoreStr = (match.my_score !== undefined && match.enemy_score !== undefined) ? ` ${match.my_score} - ${match.enemy_score}` : '';
+                resultEl.textContent = "VICTOIRE" + scoreStr;
+                resultEl.className = "text-xl font-bold valo-font tracking-widest text-center mb-6 text-green-400";
+            } else {
+                const scoreStr = (match.my_score !== undefined && match.enemy_score !== undefined) ? ` ${match.my_score} - ${match.enemy_score}` : '';
+                resultEl.textContent = "DÉFAITE" + scoreStr;
+                resultEl.className = "text-xl font-bold valo-font tracking-widest text-center mb-6 text-red-500";
+            }
+
+            match.scoreboard.forEach(p => {
+                const aData = GLOBAL_DATA.agents[p.agent] || { name: "Inconnu", icon: "" };
+                const kdRatio = (p.kills / Math.max(1, p.deaths)).toFixed(2);
+                const rankIcon = (!p.rank_id || p.rank_id === 0) ? 
+                    'https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/0/smallicon.png' : 
+                    `https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/${p.rank_id}/smallicon.png`;
+                
+                const html = `
+                    <div class="flex items-center justify-between p-2 rounded bg-opacity-30 border border-gray-700 hover:border-gray-500 transition-colors ${p.team === 'Blue' ? 'bg-blue-900/40' : 'bg-red-900/40'} ${p.is_me ? 'ring-2 ring-yellow-400' : ''}">
+                        <div class="flex items-center gap-3 w-1/3">
+                            <img src="${aData.icon}" class="w-10 h-10 rounded-full border border-gray-600 bg-gray-800 object-cover" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='">
+                            <div class="flex flex-col overflow-hidden">
+                                <span class="font-bold text-sm truncate text-white ${p.is_me ? 'text-yellow-400' : ''}">
+                                    ${p.name.replace('#', '<span class="text-gray-500 text-xs">#')}
+                                    ${p.name.includes('#') ? '</span>' : ''}
+                                </span>
+                                <span class="text-xs text-gray-400 uppercase tracking-widest">${aData.name}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center w-1/6">
+                            <img src="${rankIcon}" class="w-8 h-8 object-contain">
+                        </div>
+                        <div class="text-center w-1/4">
+                            <div class="text-xs text-gray-400">K/D/A</div>
+                            <div class="font-bold text-sm">${p.kills} / ${p.deaths} / ${p.assists}</div>
+                        </div>
+                        <div class="text-center w-1/6">
+                            <div class="text-xs text-gray-400">Score</div>
+                            <div class="font-bold text-sm valo-font">${p.score}</div>
+                        </div>
+                    </div>
+                `;
+                
+                if (p.team === 'Blue') {
+                    blueContainer.innerHTML += html;
+                } else {
+                    redContainer.innerHTML += html;
+                }
+            });
+
+            document.getElementById('match-details-modal').classList.remove('hidden');
+            document.getElementById('match-details-modal').classList.add('flex');
+        }
+
+        function closeMatchDetails() {
+            document.getElementById('match-details-modal').classList.add('hidden');
+            document.getElementById('match-details-modal').classList.remove('flex');
         }
     </script>
 </body>
