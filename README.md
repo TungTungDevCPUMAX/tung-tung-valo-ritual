@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/displayicon.png" width="300" alt="Vandal" />
   <h1>🎯 Tung Tung Tracker</h1>
-  <p><strong>L'outil ultime d'analyse de skins et de Live Tracking pour Valorant, conçu pour les passionnés.</strong></p>
+  <p><strong>The ultimate skin analysis and Live Tracking tool for Valorant, designed for enthusiasts.</strong></p>
   <p>
     <img src="https://img.shields.io/badge/API-100%25%20GET-brightgreen" alt="100% GET" />
     <img src="https://img.shields.io/badge/Ban%20Risk-0%25-blue" alt="Zero Ban Risk" />
@@ -10,52 +10,53 @@
 </div>
 
 <br>
-## 🌟 Présentation
 
-**Tung Tung Tracker** va au-delà des trackers classiques. Son concept original ? **Lier vos performances à vos skins.** Vous vous demandez si vous êtes vraiment plus fort avec votre Kuronami Vandal ou votre Prime ? Cet outil vous le dira.
+## 🌟 Overview
 
-Grâce à son système avancé exploitant l'API locale (Lockfile) de Valorant, l'application fonctionne entièrement en tâche de fond pour garantir un respect strict de l'anonymat et des conditions de Riot Games.
+**Tung Tung Tracker** goes beyond classic trackers. Its original concept? **Linking your performance to your skins.** Wondering if you're really better with your Kuronami Vandal or your Prime? This tool will tell you.
 
-## 🚀 Fonctionnalités Clés
+Thanks to its advanced system leveraging Valorant's local API (Lockfile), the application runs entirely in the background to ensure strict compliance with anonymity and Riot Games' terms of service.
 
-- 🕵️ **Live Match Tracker (WAIUA intégré)** : Dès qu'une partie se lance, le tracker révèle les alliés et les adversaires avec leurs agents, rangs, niveaux, et même les **skins exacts équipés** par chacun (Vandal, Phantom et Couteau).
-- 🔫 **Casier d'Armes Intelligent** : Classe vos skins d'armes selon vos statistiques et détermine le Top 3 des skins avec lesquels vous êtes le plus performant.
-- 🛡️ **Zéro Risque (100% Lecture Seule)** : Le code source a été certifié pour n'utiliser **que des requêtes GET locales**. Aucune donnée n'est altérée, envoyée ou modifiée. L'outil respecte le mode "Streamer/Anonyme" de vos adversaires.
-- 📊 **Dashboard Complet** : Profil dynamique avec votre rang (icônes HD) et statistiques de la session (HS%, K/D, Winrate).
-- 🔄 **Auto-Sync 60s** : Le client vérifie automatiquement vos parties toutes les minutes et capture votre équipement instantanément.
+## 🚀 Key Features
 
-## 🛠️ Stack Technique
+- 🕵️ **Live Match Tracker (Built-in WAIUA)**: As soon as a game starts, the tracker reveals allies and opponents with their agents, ranks, levels, and even the **exact skins equipped** by everyone (Vandal, Phantom, and Knife).
+- 🔫 **Smart Weapon Locker**: Ranks your weapon skins according to your statistics and determines the Top 3 skins you perform best with.
+- 🛡️ **Zero Risk (100% Read-Only)**: The source code has been certified to use **only local GET requests**. No data is altered, sent, or modified. The tool respects the "Streamer/Anonymous" mode of your opponents.
+- 📊 **Comprehensive Dashboard**: Dynamic profile with your rank (HD icons) and session statistics (HS%, K/D, Winrate).
+- 🔄 **60s Auto-Sync**: The client automatically checks your games every minute and captures your loadout instantly.
 
-- **Backend** : Python 3.10+ (Flask, Requests)
-- **Frontend** : Vanilla JavaScript, HTML5, TailwindCSS (Styling)
-- **APIs** : Riot Local Client (Lockfile LCU), Valorant-API.com
-- **Base de Données** : JSON Local (`database.json`)
+## 🛠️ Tech Stack
 
-## 💻 Installation & Utilisation
+- **Backend**: Python 3.10+ (Flask, Requests)
+- **Frontend**: Vanilla JavaScript, HTML5, TailwindCSS (Styling)
+- **APIs**: Riot Local Client (Lockfile LCU), Valorant-API.com
+- **Database**: Local JSON (`database.json`)
 
-1. Assurez-vous d'avoir [Python 3](https://www.python.org/downloads/) installé.
-2. Clonez ce dépôt sur votre machine :
+## 💻 Installation & Usage
+
+1. Make sure you have [Python 3](https://www.python.org/downloads/) installed.
+2. Clone this repository to your machine:
    ```bash
-   git clone https://github.com/votre-nom/tung-tung-valo-ritual.git
+   git clone https://github.com/your-name/tung-tung-valo-ritual.git
    ```
-3. Installez les dépendances :
+3. Install dependencies:
    ```bash
    pip install flask flask-cors requests
    ```
-4. **Lancez Valorant** (L'application a besoin du jeu ouvert pour lire le *lockfile* local).
-5. Lancez l'application :
+4. **Launch Valorant** (The app needs the game open to read the local *lockfile*).
+5. Start the application:
    ```bash
    python app.py
    ```
-6. Ouvrez le tableau de bord à l'adresse `http://127.0.0.1:5000`.
+6. Open the dashboard at `http://127.0.0.1:5000`.
 
-## ⚠️ Avertissement & Conformité (Riot ToS)
+## ⚠️ Warning & Compliance (Riot ToS)
 
-Ce projet est conçu comme un projet pédagogique et personnel. Il adhère au principe de **"Lecture Seule" (Strict GET API)** et ne manipule en aucun cas la mémoire vive du jeu (`Valorant.exe`). Il s'appuie sur des appels API non-officiels (LCU / GLZ) mais largement documentés.
+This project is designed as an educational and personal project. It adheres to the **"Read-Only" (Strict GET API)** principle and does not manipulate the game's RAM (`Valorant.exe`) in any way. It relies on unofficial (LCU / GLZ) but widely documented API calls.
 
-Tant que le code n'est pas modifié pour exécuter des actions POST/PUT (comme automatiser l'Agent Select ou changer des skins en direct), il est techniquement aligné sur le comportement autorisé d'outils comme *WAIUA* ou *Tracker.gg*. **Utilisez ce code à vos propres risques.**
+As long as the code is not modified to execute POST/PUT actions (like automating Agent Select or changing skins live), it is technically aligned with the authorized behavior of tools like *WAIUA* or *Tracker.gg*. **Use this code at your own risk.**
 
 <div align="center">
   <br>
-  <i>Développé avec ❤️ pour la communauté Valorant.</i>
+  <i>Developed with ❤️ for the Valorant community.</i>
 </div>
